@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/recipe.dart';
+import 'recipe_detail_screen.dart';
 
 class FavoriteRecipesScreen extends StatelessWidget {
   final List<Recipe> recipes;
@@ -38,6 +39,20 @@ class FavoriteRecipesScreen extends StatelessWidget {
                       recipe.title,
                       style: TextStyle(fontSize: 16),
                     ),
+                    trailing: Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                    ),
+                    onTap: () {
+                      // Navegar para a tela de detalhes da receita
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              RecipeDetailScreen(recipe: recipe),
+                        ),
+                      );
+                    },
                   ),
                 );
               },
