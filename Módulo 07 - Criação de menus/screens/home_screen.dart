@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/recipe.dart';
 import 'add_recipe_screen.dart';
 import 'favorite_recipes_screen.dart';
+import 'recipe_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -83,7 +84,34 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Colors.green[50], // Verde para outras receitas
                     borderRadius: BorderRadius.circular(8.0),
                   ),
-                  child: _buildRecipeTile(recipe),
+                  child: ListTile(
+                    title: Text(
+                      recipe.title,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(
+                        recipe.isFavorite
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: Colors.red,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          recipe.isFavorite = !recipe.isFavorite;
+                        });
+                      },
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              RecipeDetailScreen(recipe: recipe),
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             ),
@@ -102,29 +130,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: Colors.blue,
       ),
-    );
-  }
-
-  Widget _buildRecipeTile(Recipe recipe) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          recipe.title,
-          style: TextStyle(fontSize: 16),
-        ),
-        IconButton(
-          icon: Icon(
-            recipe.isFavorite ? Icons.favorite : Icons.favorite_border,
-            color: Colors.red,
-          ),
-          onPressed: () {
-            setState(() {
-              recipe.isFavorite = !recipe.isFavorite;
-            });
-          },
-        ),
-      ],
     );
   }
 }
